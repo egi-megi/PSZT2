@@ -22,7 +22,12 @@ public abstract class SvmModel {
     INDArray supportVectorsY;
     INDArray alphas;
     double b;
-    Random rnd = new Random(7890);
+
+    public static int SEED=-1;
+
+    Random rnd = SEED==-1?new Random():new Random(SEED);
+
+
 
     abstract double kernelFunction(INDArray inputVec, INDArray supprotVec);
 
