@@ -1,5 +1,7 @@
 package pl.edu.pw.elka.mnistsvm;
 
+import org.nd4j.linalg.api.buffer.DataBuffer;
+import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.iter.NdIndexIterator;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class SvmModel {
+    static {
+        Nd4j.setDefaultDataTypes(DataType.DOUBLE, DataType.DOUBLE);
+    }
 
     INDArray supportVectorsX;
     INDArray supportVectorsY;
@@ -227,7 +232,7 @@ public abstract class SvmModel {
         int m = X.rows();
         INDArray p = Nd4j.zeros(m, 1);
         INDArray pred = Nd4j.zeros(m, 1);
-        for (int i = 1; i < m; i++) {
+        for (int i = 0; i < m; i++) {
             double prediction = 0;
             for (int j = 0; j < supportVectorsX.rows(); j++) {
                 prediction = prediction +
@@ -236,8 +241,8 @@ public abstract class SvmModel {
             }
             p.putScalar(new int[]{i, 0}, prediction + b);
         }
-        pred=p.gte(0);
-        return pred;
+
+        return p;
     }
 
 
