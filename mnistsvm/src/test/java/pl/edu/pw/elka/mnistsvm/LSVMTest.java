@@ -28,15 +28,15 @@ public class LSVMTest {
 
         LSVMModel mod=new LSVMModel();
 
-        mod.svmTrain(Nd4j.createFromArray(X),Nd4j.createFromArray(Y),0.1);
+        mod.svmTrain(Nd4j.createFromArray(X),Nd4j.createFromArray(Y),10);
 
-        double [][]testX=new double[][]{{6,1},{0.0,0.0}};
+        double [][]testX=new double[][]{{4,0},{2,1},{6,1},{0.0,0.0},{7,0},{-1.0,1.0}};
 
         INDArray pre=mod.predict(Nd4j.createFromArray(testX));
 
 
         assertTrue(pre.getDouble(0)>=0.0);
-        assertTrue(pre.getDouble(0)>=0.0);
+        assertTrue(pre.getDouble(1)<0.0);
     }
 
 

@@ -22,7 +22,7 @@ public abstract class SvmModel {
     INDArray supportVectorsY;
     INDArray alphas;
     double b;
-    Random rnd = new Random();
+    Random rnd = new Random(7890);
 
     abstract double kernelFunction(INDArray inputVec, INDArray supprotVec);
 
@@ -224,14 +224,13 @@ public abstract class SvmModel {
     }
 
     public void svmTrain(INDArray X, INDArray Y, double C) {
-        svmTrain(X, Y, C, 1e-3, 5);
+        svmTrain(X, Y, C, 1e-5, 5);
     }
 
 
     public INDArray predict(INDArray X) {
         int m = X.rows();
-        INDArray p = Nd4j.zeros(m, 1);
-        INDArray pred = Nd4j.zeros(m, 1);
+        INDArray p = Nd4j.zeros(m);
         for (int i = 0; i < m; i++) {
             double prediction = 0;
             for (int j = 0; j < supportVectorsX.rows(); j++) {
@@ -239,7 +238,7 @@ public abstract class SvmModel {
                         alphas.getDouble(j)*(supportVectorsY.getDouble(j)) * (
                                 kernelFunction(X.getRow(i), supportVectorsX.getRow(j)));
             }
-            p.putScalar(new int[]{i, 0}, prediction + b);
+            p.putScalar(i, prediction + b);
         }
 
         return p;
