@@ -50,5 +50,11 @@
             <artifactId>openblas-platform</artifactId>
             <version>0.3.7-1.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
