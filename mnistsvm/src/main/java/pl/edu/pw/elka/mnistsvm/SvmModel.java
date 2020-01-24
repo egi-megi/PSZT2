@@ -236,7 +236,7 @@ public abstract class SvmModel {
             double prediction = 0;
             for (int j = 0; j < supportVectorsX.rows(); j++) {
                 prediction = prediction +
-                        alphas.getRow(j).mmul(supportVectorsY.getRow(j)).getDouble(0, 0) * (
+                        alphas.getDouble(j)*(supportVectorsY.getDouble(j)) * (
                                 kernelFunction(X.getRow(i), supportVectorsX.getRow(j)));
             }
             p.putScalar(new int[]{i, 0}, prediction + b);
