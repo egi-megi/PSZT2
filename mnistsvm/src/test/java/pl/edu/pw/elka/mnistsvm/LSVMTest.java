@@ -46,24 +46,7 @@ public class LSVMTest {
     }
 
 
-    @Test
-    void testBMI() {
 
-        double[][] X= new double[][]{{176,70},{176,90},{155,40},{5,1}};
-        double[] Y = new double[]{-1,-1,1,1};
-
-        LSVMModel mod=new LSVMModel();
-
-        mod.svmTrain(Nd4j.createFromArray(X),Nd4j.createFromArray(Y),0.1);
-
-        double [][]testX=new double[][]{{6,1},{0.0,0.0}};
-
-        INDArray pre=mod.predict(Nd4j.createFromArray(testX));
-
-
-        assertTrue(pre.getDouble(0)>=0.0);
-        assertTrue(pre.getDouble(0)>=0.0);
-    }
 
 
 }

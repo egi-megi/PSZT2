@@ -32,6 +32,7 @@ public abstract class SvmModel {
     abstract double kernelFunction(INDArray inputVec, INDArray supprotVec);
 
 
+
     /**
      * %SVMTRAIN Trains an SVM classifier using a simplified version of the SMO
      * %algorithm.
