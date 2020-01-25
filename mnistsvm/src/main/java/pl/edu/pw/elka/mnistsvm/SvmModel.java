@@ -63,7 +63,9 @@ public abstract class SvmModel {
 
 // Data parameters
         int m = X.rows();
+
         int n = X.columns();
+        System.out.println("Num rows: "+m+" num cols: "+n);
 
 // Map 0 to -1
   //      Y.putWhere(0.0, -1, new EqualsCondition());
@@ -114,7 +116,7 @@ public abstract class SvmModel {
 
                 // % Calculate Ei = f(x(i)) - y(i) using (2).
                 //         % E(i) = b + sum (X(i, :) * (repmat(alphas.*Y,1,n).*X)') - Y(i);
-                E.putScalar(i, b + (alphas.mul(Y).mul(K.getColumn(i)).sum().getDouble(0)) - Y.getDouble(i));
+                E.putScalar(i, b + (alphas.transpose().mul(Y).mul(K.getColumn(i)).sum().getDouble(0)) - Y.getDouble(i));
 
                 if ((Y.getDouble(i) * E.getDouble(i) < -tol && alphas.getDouble(i) < C) ||
                         (Y.getDouble(i) * E.getDouble(i) > tol && alphas.getDouble(i) > 0)) {
@@ -127,7 +129,7 @@ public abstract class SvmModel {
 
                     //       % Calculate Ej = f(x(j)) - y(j) using (2).
 //                E(j) = b + sum (alphas.*Y.*K(:,j)) - Y(j);
-                    E.putScalar(j, b + (alphas.mul(Y).mul(K.getColumn(j)).sum().getDouble(0)) - Y.getDouble(j));
+                    E.putScalar(j, b + (alphas.transpose().mul(Y).mul(K.getColumn(j)).sum().getDouble(0)) - Y.getDouble(j));
                     //   % Save old alphas
                     double alpha_i_old = alphas.getDouble(i);
                     double alpha_j_old = alphas.getDouble(j);
@@ -149,7 +151,9 @@ public abstract class SvmModel {
 
                             //   %Compute and clip new value for alpha j using(12) and(15).
 
-                            alphas.putScalar(j, alphas.getDouble(j) - (Y.getDouble(j) * (E.getDouble(i) - E.getDouble(j))) / eta);
+                            alphas.putScalar(j,
+                                    alphas.getDouble(j) -
+                                            (Y.getDouble(j) * (E.getDouble(i) - E.getDouble(j))) / eta);
                             //%Clip
                             alphas.putScalar(j, Math.min(H, alphas.getDouble(j)));
                             alphas.putScalar(j, Math.max(L, alphas.getDouble(j)));
@@ -163,12 +167,15 @@ public abstract class SvmModel {
                             } else {
 
                                 //   % Determine value for alpha i using(16).
-                                alphas.putScalar(i, alphas.getDouble(i) + Y.getDouble(i) * Y.getDouble(j) * (alpha_j_old - alphas.getDouble(j)));
+                                alphas.putScalar(i, alphas.getDouble(i) +
+                                        Y.getDouble(i) * Y.getDouble(j) * (alpha_j_old - alphas.getDouble(j)));
 
                                 //  %Compute b1 and b2 using(17) and(18) respectively.
-                                double b1 = b - E.getDouble(i) -Y.getDouble(i) * (alphas.getDouble(i) - alpha_i_old) * K.getDouble(i, j)
+                                double b1 = b - E.getDouble(i)
+                                        -Y.getDouble(i) * (alphas.getDouble(i) - alpha_i_old) * K.getDouble(i, j)
                                         - Y.getDouble(j) * (alphas.getDouble(j) - alpha_j_old) * K.getDouble(i, j);
-                                double b2 = b - E.getDouble(j) -Y.getDouble(i) * (alphas.getDouble(i) - alpha_i_old) * K.getDouble(i, j)
+                                double b2 = b - E.getDouble(j)
+                                        -Y.getDouble(i) * (alphas.getDouble(i) - alpha_i_old) * K.getDouble(i, j)
                                         - Y.getDouble(j) * (alphas.getDouble(j) - alpha_j_old) * K.getDouble(j, j);
 
                                 //     % Compute b by (19).
@@ -229,7 +236,7 @@ public abstract class SvmModel {
     }
 
     public void svmTrain(INDArray X, INDArray Y, double C) {
-        svmTrain(X, Y, C, 1e-5, 5);
+        svmTrain(X, Y, C, 100, 5);
     }
 
 

@@ -26,19 +26,43 @@ public class LSVMTest {
             SvmModel.SEED=i;
             double[][] X = new double[][]{{1, 0}, {2, 1}, {4, 0}, {5, 1}};
             double[] Y = new double[]{-1, -1, 1, 1};
+            //double[][] X = new double[][]{{2, 1}, {4, 0}};
+            //double[] Y = new double[]{-1,  1};
 
             LSVMModel mod = new LSVMModel();
 
-            mod.svmTrain(Nd4j.createFromArray(X), Nd4j.createFromArray(Y), 0.5,0.00001, 8);
+            mod.svmTrain(Nd4j.createFromArray(X), Nd4j.createFromArray(Y), 1,0.001, 8);
 
             double[][] testX = new double[][]{{4, 0}, {2, 1}, {6, 1}, {0.0, 0.0}, {7, 0}, {-1.0, 1.0}};
 
             INDArray pre = mod.predict(Nd4j.createFromArray(testX));
 
+            //System.out.println();
             System.out.println(pre);
+            System.out.println(mod.b);
 //            assertTrue(pre.getDouble(0) >= 0.0);
 //            assertTrue(pre.getDouble(1) < 0.0);
         }
+    }
+
+
+    @Test
+    void testBMI() {
+
+        double[][] X= new double[][]{{176,70},{176,90},{155,40},{5,1}};
+        double[] Y = new double[]{-1,-1,1,1};
+
+        LSVMModel mod=new LSVMModel();
+
+        mod.svmTrain(Nd4j.createFromArray(X),Nd4j.createFromArray(Y),0.1);
+
+        double [][]testX=new double[][]{{6,1},{0.0,0.0}};
+
+        INDArray pre=mod.predict(Nd4j.createFromArray(testX));
+
+
+        assertTrue(pre.getDouble(0)>=0.0);
+        assertTrue(pre.getDouble(0)>=0.0);
     }
 
 
