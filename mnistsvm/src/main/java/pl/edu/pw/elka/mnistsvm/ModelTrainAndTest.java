@@ -107,13 +107,12 @@ public class ModelTrainAndTest {
         }
     }
 
-
+    static MnistMatrix[] mnistMatrix ;//= new MnistDataReader().readData("data" + File.separator+"train-images.idx3-ubyte", "data/train-labels.idx1-ubyte");
+    static MnistMatrix[] testMnistMatrix ;
     public static ModelTestStats testSingleModel(Model m) {
         ModelTestStats stats = new ModelTestStats();
         try {
-            MnistMatrix[] mnistMatrix = new MnistDataReader().readData("data" + File.separator+"train-images.idx3-ubyte", "data/train-labels.idx1-ubyte");
-            m.train(mnistMatrix, stats);
-            mnistMatrix = new MnistDataReader().readData("data" + File.separator + "t10k-images.idx3-ubyte", "data/t10k-labels.idx1-ubyte");
+           m.train(mnistMatrix, stats);
 
 
             int testSize = 100;
@@ -121,7 +120,7 @@ public class ModelTrainAndTest {
             MnistMatrix[] smallTest = new MnistMatrix[testSize];
             stats.testSize = testSize;
             for (int i = 0; i < smallTest.length; i++) {
-                smallTest[i] = mnistMatrix[i];
+                smallTest[i] = testMnistMatrix[i];
             }
             m.test(smallTest, stats);
             System.out.println("Model: " + m.getName());
@@ -160,6 +159,9 @@ public class ModelTrainAndTest {
         fw.write(ModelTestStats.getHeader());
         fw.write("\n");
         fw.flush();
+        mnistMatrix = new MnistDataReader().readData("data" + File.separator+"train-images.idx3-ubyte", "data/train-labels.idx1-ubyte");
+        testMnistMatrix = new MnistDataReader().readData("data" + File.separator + "t10k-images.idx3-ubyte", "data/t10k-labels.idx1-ubyte");
+
         for (Model m : models) {
             ModelTestStats stat = testSingleModel(m);
             fw.write(stat.csvString());
