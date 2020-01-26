@@ -28,6 +28,8 @@ public class OneVsOneMnistSvmModel extends MnistModel {
     @Override
     protected void doTrainingWithSetUpTrainLables(ModelTestStats testStats) {
         long testStart=System.currentTimeMillis();
+        testStats.metaModel="OneVsOne";
+
         IntStream.of(0,1,2,3,4,5,6,7,8).parallel().forEach(i-> {
             for (int j = i + 1; j < 10; j++) {
 

@@ -19,7 +19,7 @@ public class ModelTrainAndTest {
 
     static ArrayList<Model> models = new ArrayList<>();
 
-    {
+    static {
          /*
            Baseline returning the most probable class
            new BaselineMaxClassModel(),

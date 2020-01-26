@@ -22,7 +22,8 @@ public class ModelTestStats {
     }
     String csvString (){
         return  metaModel + ";" + svm + ";" + sigma_r_n + ";" + gamma + ";" + tol + ";" + C + ";" + maxPasses +
-                ";" + trainingTime + ";" + testTime + ";" + accuracy + ";" + precision + ";" + recall + ";" + f1;
+                (Double.isNaN(precision)? "Model failed;;;;;":
+                ( ";" + trainingTime + ";" + testTime + ";" + accuracy + ";" + precision + ";" + recall + ";" + f1));
     }
 
 }
