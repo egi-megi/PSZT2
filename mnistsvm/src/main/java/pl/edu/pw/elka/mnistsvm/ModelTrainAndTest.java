@@ -38,10 +38,10 @@ public class ModelTrainAndTest {
                 }
             }),
             */
-        for (int C : new int[]{1, 10, 100}) {
+        for (int C : new int[]{10}) {
             for (double tol : new double[]{0.0000001}) {
-                for (int maxPasses : new int[]{1, 5, 10}) {
-                    for (int trainingSize : new int[]{50, 100}) {
+                for (int maxPasses : new int[]{5}) {
+                    for (int trainingSize : new int[]{300}) {
 
                         models.add(new OneVsAllMnistSvmModel(new SvmModelCreator() {
                             @Override
@@ -55,7 +55,7 @@ public class ModelTrainAndTest {
                             }
                         }, C, trainingSize, tol, maxPasses));
 
-                        for (double sigma : new double[]{0.2, 0.5, 1.0}) {
+                        for (double sigma : new double[]{0.5}) {
                             models.add(new OneVsAllMnistSvmModel(new SvmModelCreator() {
                                 @Override
                                 public SvmModel createModel() {
@@ -70,11 +70,42 @@ public class ModelTrainAndTest {
 
                         }
 
+                        for (double n : new double[]{2}) {
+                            models.add(new OneVsAllMnistSvmModel(new SvmModelCreator() {
+                                @Override
+                                public SvmModel createModel() {
+                                    return new PolySVMModel(n);
+                                }
+
+                                @Override
+                                public String modelName() {
+                                    return "PolySVMModel";
+                                }
+                            }, C, trainingSize, tol, maxPasses));
+
+                        }
+
+                        for (double r: new double[]{1.0}) {
+                            for (double gamma: new double[]{0.5}){
+                                models.add(new OneVsAllMnistSvmModel(new SvmModelCreator() {
+                                    @Override
+                                    public SvmModel createModel() {
+                                        return new SigmoidSVMModel(r, gamma);
+                                    }
+
+                                    @Override
+                                    public String modelName() {
+                                        return "SigmoidSVMModel";
+                                    }
+                                }, C, trainingSize, tol, maxPasses));
+                            }
+                        }
+
 
                     }
 
 
-                    for (int trainingSize : new int[]{40, 75}) {
+                    for (int trainingSize : new int[]{100}) {
 
                         models.add(new OneVsOneMnistSvmModel(new SvmModelCreator() {
                             @Override
@@ -88,7 +119,7 @@ public class ModelTrainAndTest {
                             }
                         }, C, trainingSize, tol, maxPasses));
 
-                        for (double sigma : new double[]{0.2, 0.5, 1.0}) {
+                        for (double sigma : new double[]{0.5}) {
                             models.add(new OneVsOneMnistSvmModel(new SvmModelCreator() {
                                 @Override
                                 public SvmModel createModel() {
@@ -101,6 +132,38 @@ public class ModelTrainAndTest {
                                 }
                             }, C, trainingSize, tol, maxPasses));
                         }
+
+                        for (double n : new double[]{2}) {
+                            models.add(new OneVsOneMnistSvmModel(new SvmModelCreator() {
+                                @Override
+                                public SvmModel createModel() {
+                                    return new PolySVMModel(n);
+                                }
+
+                                @Override
+                                public String modelName() {
+                                    return "PolySVMModel";
+                                }
+                            }, C, trainingSize, tol, maxPasses));
+
+                        }
+
+                        for (double r: new double[]{1.0}) {
+                            for (double gamma: new double[]{0.5}){
+                                models.add(new OneVsOneMnistSvmModel(new SvmModelCreator() {
+                                    @Override
+                                    public SvmModel createModel() {
+                                        return new SigmoidSVMModel(r, gamma);
+                                    }
+
+                                    @Override
+                                    public String modelName() {
+                                        return "SigmoidSVMModel";
+                                    }
+                                }, C, trainingSize, tol, maxPasses));
+                            }
+                        }
+
                     }
                 }
             }
@@ -115,7 +178,7 @@ public class ModelTrainAndTest {
            m.train(mnistMatrix, stats);
 
 
-            int testSize = 100;
+            int testSize = 500;
 
             MnistMatrix[] smallTest = new MnistMatrix[testSize];
             stats.testSize = testSize;

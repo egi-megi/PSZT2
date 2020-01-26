@@ -3,9 +3,9 @@ package pl.edu.pw.elka.mnistsvm;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class PolySVMModel extends SvmModel {
-   int n;
+   double n;
 
-    public PolySVMModel(int n) {
+    public PolySVMModel(double n) {
         this.n = n;
     }
 
