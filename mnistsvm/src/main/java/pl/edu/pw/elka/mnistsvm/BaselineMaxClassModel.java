@@ -13,7 +13,7 @@ public class BaselineMaxClassModel implements Model {
         return "MostOftenClassModel";
     }
 
-    public void train(MnistMatrix[] matrix) {
+    public void train(MnistMatrix[] matrix,ModelTestStats testStats) {
         int[] labelsCount=new int[10];
         for (MnistMatrix m:matrix) {
             labelsCount[m.getLabel()]++;
@@ -29,7 +29,7 @@ public class BaselineMaxClassModel implements Model {
         mostProbbaleLabel=maxI;
     }
 
-    public void test(MnistMatrix[] matrix) {
+    public void test(MnistMatrix[] matrix,ModelTestStats testStats) {
         for (MnistMatrix m:matrix) {
             m.setInferencedLabel(mostProbbaleLabel);
 

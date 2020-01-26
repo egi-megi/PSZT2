@@ -7,7 +7,7 @@ public interface Model {
 
 
     String getName();
-    void train(MnistMatrix[] matrix);
-    void test(MnistMatrix[] matrix);
+    void train(MnistMatrix[] matrix,ModelTestStats testStats);
+    void test(MnistMatrix[] matrix,ModelTestStats testStats);
 
 }

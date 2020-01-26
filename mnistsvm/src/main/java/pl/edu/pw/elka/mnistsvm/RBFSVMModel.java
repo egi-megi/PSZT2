@@ -22,4 +22,10 @@ public class RBFSVMModel extends SvmModel {
         //return inputVec.mmul(supprotVec.reshape(1,k).transpose()).getDouble(0,0);
     }
 
+    @Override
+    void fillStats(ModelTestStats stats) {
+        stats.svm="RBF SVM";
+        stats.sigma_r_n=sigma;
+    }
+
 }

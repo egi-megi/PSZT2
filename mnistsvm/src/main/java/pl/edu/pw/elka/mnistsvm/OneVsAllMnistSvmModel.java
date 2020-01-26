@@ -7,12 +7,12 @@ import java.util.stream.IntStream;
 
 public class OneVsAllMnistSvmModel extends MnistModel {
 
-    int C=1;
-    int trainSize=360;
+
     SvmModelCreator creator;
 
 
-    public OneVsAllMnistSvmModel(SvmModelCreator creator) {
+    public OneVsAllMnistSvmModel(SvmModelCreator creator,int c, int trainSize, double tol, int maxPasses) {
+        super(c,trainSize,tol,maxPasses);
         this.creator = creator;
     }
 
@@ -25,8 +25,11 @@ public class OneVsAllMnistSvmModel extends MnistModel {
     SvmModel[] models=new SvmModel[10];
 
     @Override
-    protected void doTrainingWithSetUpTrainLables() {
+    protected void doTrainingWithSetUpTrainLables(ModelTestStats testStats) {
         long testStart=System.currentTimeMillis();
+
+        testStats.metaModel="OneVsAll";
+
         IntStream.of(0,1,2,3,4,5,6,7,8,9).parallel().forEach(i->{
                 ProbeForTraining pft=new ProbeForTraining();
                 addWithLabelsToProbe(i,trainSize/2,pft);
@@ -37,14 +40,16 @@ public class OneVsAllMnistSvmModel extends MnistModel {
                 }
                 models[i]=creator.createModel();
                 TrainData data=pft.getTrainData(i);
-                models[i].svmTrain(data.X, data.y, C);
+                models[i].svmTrain(data.X, data.y, C,tol,maxPasses);
             });
+        models[0].fillStats(testStats);
         long endTime=System.currentTimeMillis();
+        testStats.trainingTime=endTime-testStart;
         System.out.println("Training time is: "+((endTime-testStart)/1000)+"."+((endTime-testStart)%1000)+"s");
     }
 
     @Override
-    public void test(MnistMatrix[] matrix) {
+    public void test(MnistMatrix[] matrix,ModelTestStats testStats) {
         long testStart=System.currentTimeMillis();
         Arrays.stream(matrix).parallel().forEach(m -> {
                double max=-Double.MAX_VALUE;
@@ -62,6 +67,7 @@ public class OneVsAllMnistSvmModel extends MnistModel {
         long endTime=System.currentTimeMillis();
 
         double d=((double)matrix.length) / (((double)endTime-testStart)/1000.0);
+        testStats.testTime=endTime-testStart;
         System.out.println("Inference time is: "+((endTime-testStart)/1000)+"."+((endTime-testStart)%1000)+"s");
         System.out.println("Efficincy : "+(d)+" tests/s");
     }

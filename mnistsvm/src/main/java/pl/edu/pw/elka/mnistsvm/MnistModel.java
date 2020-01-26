@@ -19,6 +19,22 @@ public abstract class MnistModel implements  Model {
     }
 
 
+    int C=1;
+    int trainSize=360;
+    double tol;
+    int maxPasses=5;
+
+    public MnistModel(int c, int trainSize, double tol, int maxPasses) {
+        C = c;
+        this.trainSize = trainSize;
+        this.tol = tol;
+        this.maxPasses=maxPasses;
+    }
+
+
+
+
+
     ArrayList<INDArray>[] trainForLabels=new ArrayList[10];
 
 
@@ -79,11 +95,11 @@ public abstract class MnistModel implements  Model {
 
 
 
-    protected abstract void doTrainingWithSetUpTrainLables();
+    protected abstract void doTrainingWithSetUpTrainLables(ModelTestStats testStats);
 
 
     @Override
-    public void train(MnistMatrix[] matrix) {
+    public void train(MnistMatrix[] matrix,ModelTestStats testStats) {
         trainForLabels=new ArrayList[10];
         for (int i=0; i<10 ; i++) {
             trainForLabels[i]=new ArrayList<>();
@@ -91,7 +107,11 @@ public abstract class MnistModel implements  Model {
         for (MnistMatrix m:matrix) {
             trainForLabels[m.getLabel()].add(m.getData());
         }
-        doTrainingWithSetUpTrainLables();
+        testStats.C=C;
+        testStats.maxPasses=maxPasses;
+        testStats.trainingSize=trainSize;
+        testStats.tol=tol;
+        doTrainingWithSetUpTrainLables(testStats);
     }
 
 }

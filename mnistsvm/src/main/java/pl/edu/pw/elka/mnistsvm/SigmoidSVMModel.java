@@ -20,4 +20,10 @@ public class SigmoidSVMModel extends SvmModel {
         return Math.tanh((inputVec.mmul(supprotVec.reshape(1,k).transpose()).getDouble(0,0)) * gamma + r);
     }
 
+    @Override
+    void fillStats(ModelTestStats stats) {
+        stats.svm="SigmoidSvm";
+        stats.sigma_r_n=r;
+        stats.gamma=gamma;
+    }
 }

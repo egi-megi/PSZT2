@@ -28,6 +28,7 @@ public abstract class SvmModel {
     Random rnd = SEED==-1?new Random():new Random(SEED);
 
 
+    abstract void fillStats(ModelTestStats stats) ;
 
     abstract double kernelFunction(INDArray inputVec, INDArray supprotVec);
 

@@ -8,5 +8,9 @@ public class LSVMModel extends SvmModel {
         int k=inputVec.columns();
         return inputVec.mmul(supprotVec.reshape(1,k).transpose()).getDouble(0,0);
     }
+    @Override
+    void fillStats(ModelTestStats stats) {
+        stats.svm="LSvm";
 
+    }
 }

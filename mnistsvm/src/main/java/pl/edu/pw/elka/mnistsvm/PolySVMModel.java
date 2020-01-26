@@ -19,4 +19,9 @@ public class PolySVMModel extends SvmModel {
         return Math.pow((1 + inputVec.mmul(supprotVec.reshape(1,k).transpose()).getDouble(0,0)), n);
     }
 
+    @Override
+    void fillStats(ModelTestStats stats) {
+        stats.svm="PolySvm";
+        stats.sigma_r_n=n;
+    }
 }
