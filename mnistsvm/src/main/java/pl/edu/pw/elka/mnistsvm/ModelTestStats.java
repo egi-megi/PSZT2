@@ -18,12 +18,12 @@ public class ModelTestStats {
     double f1;
 
     static String getHeader(){
-        return "metaModel;svm;sigma_r_n;gamma;tol;C;maxPasses;trainingTime;testTime;accuracy;precision;recall;f1";
+        return "metaModel;svm;sigma_r_n;gamma;tol;C;maxPasses;trainingSize;trainingTime;testSize;testTime;accuracy;precision;recall;f1";
     }
     String csvString (){
         return  metaModel + ";" + svm + ";" + sigma_r_n + ";" + gamma + ";" + tol + ";" + C + ";" + maxPasses +
                 (Double.isNaN(precision)? "Model failed;;;;;":
-                ( ";" + trainingTime + ";" + testTime + ";" + accuracy + ";" + precision + ";" + recall + ";" + f1));
+                ( ";" + trainingSize + ";" + trainingTime + ";" + testSize + ";" + testTime + ";" + accuracy + ";" + precision + ";" + recall + ";" + f1));
     }
 
 }
