@@ -159,8 +159,8 @@ public class ModelTrainAndTest {
         fw.write(ModelTestStats.getHeader());
         fw.write("\n");
         fw.flush();
-        mnistMatrix = new MnistDataReader().readData("data" + File.separator+"train-images.idx3-ubyte", "data/train-labels.idx1-ubyte");
-        testMnistMatrix = new MnistDataReader().readData("data" + File.separator + "t10k-images.idx3-ubyte", "data/t10k-labels.idx1-ubyte");
+        mnistMatrix = new MnistDataReader().readData("data" + File.separator+"train-images.idx3-ubyte", "data"+File.separator+"train-labels.idx1-ubyte");
+        testMnistMatrix = new MnistDataReader().readData("data" + File.separator + "t10k-images.idx3-ubyte", "data"+File.separator+"t10k-labels.idx1-ubyte");
 
         for (Model m : models) {
             ModelTestStats stat = testSingleModel(m);
