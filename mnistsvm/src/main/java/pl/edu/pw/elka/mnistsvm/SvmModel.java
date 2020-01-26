@@ -237,7 +237,7 @@ public abstract class SvmModel {
     }
 
     public void svmTrain(INDArray X, INDArray Y, double C) {
-        svmTrain(X, Y, C, 100, 5);
+        svmTrain(X, Y, C, 0.0000001, 5);
     }
 
 

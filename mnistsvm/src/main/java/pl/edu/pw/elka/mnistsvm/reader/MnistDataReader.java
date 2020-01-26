@@ -29,7 +29,7 @@ public class MnistDataReader  {
         MnistMatrix[] data = new MnistMatrix[numberOfItems];
 
         assert numberOfItems == numberOfLabels;
-        int[][] array=new int[nRows][nCols];
+        double[][] array=new double[nRows][nCols];
         for(int i = 0; i < numberOfItems; i++) {
             int label=labelInputStream.readUnsignedByte();
             for (int r = 0; r < nRows; r++) {
