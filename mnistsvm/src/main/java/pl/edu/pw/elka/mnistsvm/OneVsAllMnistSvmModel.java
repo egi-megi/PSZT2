@@ -26,7 +26,7 @@ public class OneVsAllMnistSvmModel extends MnistModel {
 
     @Override
     protected void doTrainingWithSetUpTrainLables() {
-
+        long testStart=System.currentTimeMillis();
         IntStream.of(0,1,2,3,4,5,6,7,8,9).parallel().forEach(i->{
                 ProbeForTraining pft=new ProbeForTraining();
                 addWithLabelsToProbe(i,trainSize/2,pft);
@@ -39,6 +39,8 @@ public class OneVsAllMnistSvmModel extends MnistModel {
                 TrainData data=pft.getTrainData(i);
                 models[i].svmTrain(data.X, data.y, C);
             });
+        long endTime=System.currentTimeMillis();
+        System.out.println("Training time is: "+((endTime-testStart)/1000)+"."+((endTime-testStart)%1000)+"s");
     }
 
     @Override
