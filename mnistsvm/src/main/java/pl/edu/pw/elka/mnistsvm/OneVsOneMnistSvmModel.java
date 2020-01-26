@@ -27,7 +27,7 @@ public class OneVsOneMnistSvmModel extends MnistModel {
 
     @Override
     protected void doTrainingWithSetUpTrainLables() {
-
+        long testStart=System.currentTimeMillis();
         IntStream.of(0,1,2,3,4,5,6,7,8).parallel().forEach(i-> {
             for (int j = i + 1; j < 10; j++) {
 
@@ -40,6 +40,8 @@ public class OneVsOneMnistSvmModel extends MnistModel {
             }
 
         });
+        long endTime=System.currentTimeMillis();
+        System.out.println("Training time is: "+((endTime-testStart)/1000)+"."+((endTime-testStart)%1000)+"s");
     }
 
 
